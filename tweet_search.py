@@ -26,7 +26,7 @@ f = open("trend_retweets.txt", "w")
 
 
 for trend in trends:
-	print ('Trends: ',trend['name'], '\n')
+	print 'Trends: ' + trend['name'] + '\n'
 	
 	tweets = api.search(q=trend['name'], lang='en', count=200)
 	n = 1
@@ -34,13 +34,13 @@ for trend in trends:
 	first = Trend()
 	first.setName(trend['name'])
 	for tweet in tweets:
-		print ('Tweet ', n, ':', tweet.text.encode("utf-8"))
+		print 'Tweet ' + str(n) + ':' + tweet.text.encode("utf-8")
 		for tags in tweet.entities.get('hashtags'):
-			print(tags['text'].encode("utf-8"))
+			print tags['text'].encode("utf-8")
 			first.addToRelated(tags['text'].encode("utf-8"),tweet.retweet_count)
 		n = n + 1
 		sum = sum + tweet.retweet_count
-	print ("Retweet Count:",str(sum),'\n')
+	print "Retweet Count:" + str(sum) + '\n'
 	f.write(trend['name']+"\t"+str(sum)+'\n\t'+"\n\t".join('{}\t{}'.format(key, val) for key, val in first._related.items())+'\n')
 	first.clear()
 	

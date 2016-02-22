@@ -7,6 +7,9 @@ alchemyapi = AlchemyAPI()
 
 
 for tweet in db.tweets.find():
-	myText = tweet.text
+	myText = tweet["text"]
 	response = alchemyapi.sentiment("text", myText.replace("#", ""))
-	print ("Sentiment: ", response['docSentiment'])
+	#try:
+	print "Sentiment: " , response
+	#except KeyError, UnicodeEncodeError:
+	#	print "Error"

@@ -28,11 +28,11 @@ tweet_count = 1.0
 
 while True:
 	
-		pages = tweepy.Cursor(api.search, lang='en', count=200, geocode='40.7142700,-74.0059700,15.8476023485km').pages()
+		pages = tweepy.Cursor(api.search, lang='en', count=200, geocode='40.7142700,-74.0059700,20km').pages()
 		pages_count = 0
 		print str(datetime.datetime.now()) +" Starting : TweepEr. Count (" +  str(error_count) + "), Dup. Rate (" + str(dup_count/tweet_count) + ") "
 		while True:
-			if pages_count >= 100:
+			if pages_count >= 1000:
 				break
 			try:
 				page = pages.next()
@@ -41,9 +41,10 @@ while True:
 				print str(datetime.datetime.now()) +" Running : TweepEr. Count (" +  str(error_count) + "), Dup. Rate (" + str(dup_rate) + ") "
 				dup_count = 0.0
 				tweet_count = 0.0
-				#if dup_rate == 1.0:
-				#	tweet_count = 1.0
-				#	break
+				if dup_rate == 1.0:
+					tweet_count = 1.0
+					time.sleep(30)
+					break
 				for tweet in page:
 					tweet_count = tweet_count + 1
 					tweet = json.loads(json.dumps(tweet._json).replace("id", "_id"))

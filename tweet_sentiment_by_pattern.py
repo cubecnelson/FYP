@@ -9,7 +9,9 @@ db = MongoClient().test_database
 
 data = {}
 
-QUERY = 'newyork'
+QUERY = 'it'
+
+
 
 for tweet in db.tweets.find():
 	myText = re.sub(r'\w+:\/{2}[\d\w-]+(\.[\d\w-]+)*(?:(?:\/[^\s/]*))*', '', tweet["text"].replace("#", "").replace("@", ""))

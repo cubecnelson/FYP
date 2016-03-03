@@ -6,6 +6,8 @@ from pymongo import MongoClient
 from itertools import islice
 import operator
 import math
+import getopt
+
 
 def take(n, iterable):
     "Return first n items of the iterable as a list"
@@ -14,7 +16,8 @@ def take(n, iterable):
 db = MongoClient().test_database
 
 n = 0.0
-QUERY = 'nyc'
+QUERY = 'tv'
+
 first = Trend()
 first.setName(QUERY)
 for tweet in db.tweets.find():

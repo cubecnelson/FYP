@@ -1,0 +1,7 @@
+ACCESS_TOKENS:
+//DLTWO ALPHA
+Consumer Key (API Key)	6SC10uTkT9qbvjnZ18i97UgRX
+Consumer Secret (API Secret)	spHJG5JHlNq8DCxKgpfWhLlk8IhGyqBrLDQZnI0Nw6C3X2Rcbc
+Access Level	Read and write (modify app permissions)
+Owner	dltwoalpha
+Owner ID	701612704927068161

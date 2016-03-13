@@ -1,0 +1,7 @@
+ACCESS_TOKENS:
+//SYJWONG
+Consumer Key (API Key)	yZHC6IWkYs0hvaqQEY67FXjTt
+Consumer Secret (API Secret)	eKJP8NfZa4IVvwZfl0DRdDFGm5jc0i8rSt5Q5xX385VtRHUNWy
+Access Level	Read and write (modify app permissions)
+Owner	withjanellee
+Owner ID		3305232200

@@ -1,7 +1,10 @@
-import numpy as np
-import sklearn
+from pymongo import MongoClient
 
-# Generate a dataset and plot it
-np.random.seed(0)
-X, y = sklearn.datasets.make_moons(200, noise=0.20)
-plt.scatter(X[:,0], X[:,1], s=40, c=y, cmap=plt.cm.Spectral)
+db = MongoClient().test_database
+db.hi
+hashtag = "hi"
+
+print db.hi.update_one({"_id":"a"}, {'$inc': {"count": -1}})
+
+for hi in db.hi.find():
+	print hi

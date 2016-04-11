@@ -17,12 +17,11 @@ def take(n, iterable):
 db = MongoClient().test_database
 
 n = 0.0
-QUERY = 'diabetes'
+QUERY = 'ROOT'
 
 first = Trend()
 first.setName(QUERY)
-for tweet in db.tweets.find({"entities.hashtags.text": re.compile(QUERY, re.IGNORECASE)}).sort([("_id", pymongo.DESCENDING)]):
-	trend_in_tweet = False
+for tweet in db.tweets.find():
 	for hashtag in tweet["entities"]["hashtags"]:
 		if hashtag['text'].encode("utf-8").lower() != QUERY.lower():
 			first.addToRelated(hashtag['text'].encode("utf-8").lower(),1)
@@ -33,4 +32,6 @@ top_10 = sorted(first.getRelated().items(), key=operator.itemgetter(1), reverse=
 
 for top in top_10:
 	print "\t", top[0], ": ", float(top[1])/n 
+
+print len(top_10)
 first.clear()

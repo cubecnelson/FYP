@@ -1,0 +1,8 @@
+ACCESS_TOKENS:
+//BUIYPY
+
+Consumer Key (API Key)	0mJzctjw4LCfVCkECicavR9KY
+Consumer Secret (API Secret)	nl2fzp6OShJnEEWAb27x9WfeFneEWxf4xhhvJe1PsBTJqZUSXI
+Access Level	Read and write (modify app permissions)
+Owner	buiypy
+Owner ID	3277652941

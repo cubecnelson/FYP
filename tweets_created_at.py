@@ -1,14 +1,11 @@
 from pymongo import MongoClient
 from array import array
 
+
 db = MongoClient().test
 
 month = {'Jan':'01','Feb':'02','Mar':'03','Apr':'04','May':'05','Jun':'06','Jul':'07','Aug':'08','Sep':'09','Oct':'10','Nov':'11','Dec':'12'}
 db.searchHashtagCounts.drop()
-# db.searchHashtagCounts
-
-# targetDate = '_20160213'
-# db[targetDate]	# create collection with target date as the name
 
 for tweet in db.tweets.find():
 	tweetDate = tweet["created_at"].split(" ")[5] + month[tweet["created_at"].split(" ")[1]] + tweet["created_at"].split(" ")[2] 

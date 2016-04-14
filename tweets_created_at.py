@@ -6,7 +6,6 @@ month = {'Jan':'01','Feb':'02','Mar':'03','Apr':'04','May':'05','Jun':'06','Jul'
 
 for tweet in db.tweets.find():
 	tweetDate = tweet["created_at"].split(" ")[5] + month[tweet["created_at"].split(" ")[1]] + tweet["created_at"].split(" ")[2] 
-	int(float(tweetDate))
 	
 	for hashtag in tweet["entities"]["hashtags"]:
 		hashtext = hashtag["text"].lower()

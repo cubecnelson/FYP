@@ -33,4 +33,4 @@ for tweet in db.tweets.find():
 				{
 					"$inc": {
 						"count": 1}}
-
+			)

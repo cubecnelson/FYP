@@ -31,13 +31,13 @@ for data in db.nyfw.find().sort("_id", 1):
 
 from pybrain.tools.shortcuts import buildNetwork
 FNN = buildNetwork(DS.indim, 20, DS.outdim, bias=True, hiddenclass=LSTMLayer, recurrent=True)
-
 from pybrain.supervised.trainers import BackpropTrainer
 TRAINER = BackpropTrainer(FNN, dataset=DS, learningrate = 0.0001, 
     momentum=0.1, verbose=True)
 
-for i in range(15000):
-    TRAINER.train()
+for i in range(10000):
+	print "Test" + str(i)
+	TRAINER.train()
 
 
 fileObject = open('neural_network_model.txt', 'w')

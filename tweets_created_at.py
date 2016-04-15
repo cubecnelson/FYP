@@ -1,18 +1,20 @@
 from pymongo import MongoClient
 from array import array
 
-
 db = MongoClient().test
-
 month = {'Jan':'01','Feb':'02','Mar':'03','Apr':'04','May':'05','Jun':'06','Jul':'07','Aug':'08','Sep':'09','Oct':'10','Nov':'11','Dec':'12'}
-db.searchHashtagCounts.drop()
 
 for tweet in db.tweets.find():
 	tweetDate = tweet["created_at"].split(" ")[5] + month[tweet["created_at"].split(" ")[1]] + tweet["created_at"].split(" ")[2] 
 	
 	for hashtag in tweet["entities"]["hashtags"]:
 		hashtext = hashtag["text"].lower()
-		if db.collectionExists(hashtext) == False:
+		
+		nameExist = False
+		for name in db.collection_names():
+			if name == hashtext:
+				nameExist == True
+		if nameExist == False:
 			db[hashtext] # create collection with hashtag as the name
 			
 		result = db[hashtext].find_one({"Date": tweetDate})
@@ -31,5 +33,3 @@ for tweet in db.tweets.find():
 					"$inc": {
 						"count": 1}}
 			)
-#for resultCounts in db.christmas.find():
-#	print resultCounts

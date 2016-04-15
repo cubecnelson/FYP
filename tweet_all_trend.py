@@ -29,6 +29,7 @@ for tweet in db.tweets.find():
 
 print QUERY.lower(), ": ", str(n)
 top_10 = sorted(first.getRelated().items(), key=operator.itemgetter(1), reverse=True)
+top_10 = take(20, top_10)
 
 for top in top_10:
 	print "\t", top[0], ": ", float(top[1])/n 

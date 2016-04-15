@@ -1,4 +1,5 @@
-# Ben's Magical Perceptron
+from pymongo import MongoClient
+import pymongo
 
 def dot_product(a, b):
     return sum([a[i]*b[i] for i in range(len(a))])
@@ -36,28 +37,24 @@ def perceptron( training_data ):
 
     return weights, theta
 
+db = MongoClient().test_database
+
+
 
 training_data = {
-        # Tuples!
-        (  1, ) : True,
-        ( 15, ) : False,
-        ( 25, ) : False,
-        (  3, ) : True,
-        (  9, ) : True,
-        ( 55, ) : False,
-        (  2, ) : True,
+        
 }
+
+for data in db.train_data.find():
+    training_data[tuple(data["values"])] = data["count"]
+    
 
 weights, theta = perceptron( training_data )
 
 print "Done!"
 
 tests = {
-        ( 23, ) : True,
-        ( 20, ) : False,
-        (  2, ) : True,
-        (  8, ) : True,
-        ( 15, ) : False
+        
 }
 
 for key, val in tests.iteritems():

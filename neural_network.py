@@ -12,7 +12,7 @@ count = 0
 test = [ ]
 i = 0
 total = 0
-for data in db.nyfw.find().sort("_id", 1):
+for data in db.type1diabetes.find().sort("_id", 1):
 	sentiment = data["sentiment"]
 	count = data["count"]
 	total = total + count

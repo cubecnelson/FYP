@@ -5,13 +5,14 @@ import pymongo
 import random
 import pickle
 
-
+total = 0.0
 db = MongoClient().test_database
 fileObject = open('neural_network_model.txt','r')
 FNN = pickle.load(fileObject)
-for data in db.nyfw.find().sort("_id", 1):
+for data in db.type1diabetes.find().sort("_id", 1):
 	sentiment = data["sentiment"]
 	count = data["count"]
+	total = total + count
 	for key in sentiment.keys():
 		sentiment[key] = float(float(sentiment[key])/count)
 	sentiment = sentiment.values()

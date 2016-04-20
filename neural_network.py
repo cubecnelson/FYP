@@ -8,34 +8,39 @@ DS = SupervisedDataSet(11, 1)
 
 db = MongoClient().test_database
 
+prev_count = 0.0
 count = 0
-test = [ ]
+test = [ 0.0, 0.0, 0.0]
 i = 0
 total = 0
-for data in db.type1diabetes.find().sort("_id", 1):
+sentiment = []
+for data in db.nyfw.find().sort("_id", 1):
+	if i > 30:
+		break
+	if i > 0:
+		count = data["count"]
+		try:
+			DS.addSample(tuple(sentiment), (count),)
+		except ValueError:
+			continue
 	sentiment = data["sentiment"]
-	count = data["count"]
 	total = total + count
+	prev_count = data["count"]
 	for key in sentiment.keys():
-		sentiment[key] = float(float(sentiment[key])/count)
-
+		sentiment[key] = float(float(sentiment[key])/prev_count)
 	sentiment = sentiment.values()
-	try:
-		DS.addSample(tuple(sentiment), (count),)
-	except ValueError:
-		continue
 	
 	i = i + 1
 
 
 
 from pybrain.tools.shortcuts import buildNetwork
-FNN = buildNetwork(DS.indim, 20, DS.outdim, bias=True, hiddenclass=LSTMLayer, recurrent=True)
+FNN = buildNetwork(DS.indim, 20, DS.outdim, bias=True)
 from pybrain.supervised.trainers import BackpropTrainer
 TRAINER = BackpropTrainer(FNN, dataset=DS, learningrate = 0.0001, 
     momentum=0.1, verbose=True)
 
-for i in range(10000):
+for i in range(25000):
 	print "Test" + str(i)
 	TRAINER.train()
 

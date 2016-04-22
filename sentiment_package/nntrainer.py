@@ -56,10 +56,6 @@ class NNTrainer:
 		pickle.dump(FNN, fileObject)
 		fileObject.close()
 
-
-a = NNTrainer("nyfw")
-a.loadData()
-a.train_output()
 #fileObject = open('filename','r')
 #net = pickle.load(fileObject)
 #for data in db.nyfw.find().sort("_id", 1):

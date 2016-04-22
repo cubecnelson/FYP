@@ -50,8 +50,4 @@ class NNActivator:
 			if actual[i] > 20:
 				error = error + abs(result[i] - actual[i])/actual[i]
 
-		
-
 		print error/len(result)
-a = NNActivator('nyfw')
-a.activate()

@@ -47,10 +47,11 @@ class NNActivator:
 		print actual
 
 		for i in range(0, len(result)):
-			print (result[i] - actual[i])/actual[i]
+			if actual[i] > 20:
+				error = error + abs(result[i] - actual[i])/actual[i]
 
 		
 
-		print error
+		print error/len(result)
 a = NNActivator('nyfw')
 a.activate()

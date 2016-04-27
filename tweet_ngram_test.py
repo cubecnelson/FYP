@@ -12,6 +12,8 @@ from itertools import tee, izip
 from nltk.probability import ConditionalFreqDist
 import unicodedata
 from pattern.en import parsetree
+import pickle
+
 
 db = MongoClient().test_database
 
@@ -51,7 +53,7 @@ def tokenize(line):
 def dictionarycheck(word, dictionary):
 	word = word.lower()
 	if word in dictionary:
-		print type(dictionary[word]), dictionary[word]
+		#print type(dictionary[word]), dictionary[word]
 		return dictionary[word]
 	else:
 		return False
@@ -66,9 +68,9 @@ def overallProb(tokens, unigramsProb, bigramsProb):
 		# add-one smoothing on unigram
 		if token not in unigramsProb:
 			unigrams[token] = 1
-			print "token count: ", sum(unigrams.values())
+			#print "token count: ", sum(unigrams.values())
 			unigramsProb[token] = 1.0/sum(unigrams.values())
-			print "new unigramProb: ", unigramsProb[token]
+			#print "new unigramProb: ", unigramsProb[token]
 		if tidx == 0:
 			prob *= unigramsProb[token]
 			prev_token = token
@@ -118,9 +120,9 @@ for idx, tweet in enumerate(tweets[0:100]):
 				else:
 					unigrams[word] = 1
 		# unigrams prob
-		if len(unigrams) != 0:
-			for unigram in unigrams:
-				unigramsProb[unigram] = float(unigrams[unigram])/len(unigrams)
+		
+		for unigram in unigrams:
+			unigramsProb[unigram] = float(unigrams[unigram])
 
 		# Bigrams
 		for word in train_tokens[0:]:
@@ -142,13 +144,35 @@ for idx, tweet in enumerate(tweets[0:100]):
 			    bigramsProb[bg] = prob
 			tweetProb.append(overallProb(tokens, unigramsProb, bigramsProb))
 
-for elem in train_tokens:
-	print elem
-print "unigrams: ", unigrams
-print "unigramsProb: ", unigramsProb
+#for elem in train_tokens:
+	#print elem
+#print "unigrams: ", unigrams
+#print "unigramsProb: ", unigramsProb
+count = 0.0
+for u in unigramsProb.values():
+	count = count + u
+
+for key in unigramsProb.keys():
+	unigramsProb[key] = unigramsProb[key]/count
 print "bigramsProb: ", bigramsProb
-print "tweets Prob: ", tweetProb
-print "tweets length: ", len(tweetProb)
+print "unigramsProb", unigramsProb
+fileObject = open('unigram.txt', 'w')
+pickle.dump(unigramsProb, fileObject)
+fileObject.close()
+fileObject = open('bigram.txt', 'w')
+pickle.dump(bigramsProb, fileObject)
+fileObject.close()
+
+import math
+tree = parsetree("A processing interface for assigning a probability to the next word.")
+prob = 1
+for sentence in tree:
+	for i in range(0, len(sentence.chunks)):
+		if i < len(sentence.chunks) - 1:
+			prob = prob*bigramsProb[(sentence.chunks[i].type.encode('utf-8'), sentence.chunks[i+1].type.encode('utf-8'))]
+print -math.log(prob)
+#print "tweets Prob: ", tweetProb
+#print "tweets length: ", len(tweetProb)
 	# print "tweet ", idx, " : ", unigramsProb
 	# # Overall Prob of Tweets
 	# prob = 1.0
@@ -193,8 +217,10 @@ print "tweets length: ", len(tweetProb)
 # test_word = raw_input("Input a word to test: ")
 # word_prob = dictionarycheck(test_word, unigramsProb)
 # print "word Prob in Unigrams: ", word_prob
+#import math
 
+#bilist = []
+#for key in bigramsProb.keys():
+#	bilist.append((key[0], key[1], -math.log(bigramsProb[key])))
 
-
-
-
+#print bilist
